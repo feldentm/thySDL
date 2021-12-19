@@ -1,0 +1,91 @@
+with string := tyr.io.CString
+
+type Uint32 := Unsigned[32];
+
+/**
+ * SDL2 is a C library; we will export all symbols with a sdl or a SDL_ prefix
+ * in this type.
+ *
+ * As SDL2 is semi-object oriented, we will use individual types where it makes
+ * sense. Thus, this type is only used for global functions and definitions.
+ */
+type sdl {
+
+  // macros
+  public type val IGNORE = 0u
+  public type val ENABLE = 1u
+
+  public type val INIT_GAMECONTROLLER = 0x00002000u
+  public type val INIT_EVENTS = 0x00004000u
+  public type val INIT_JOYSTICK = 0x00000200u
+  public type val INIT_AUDIO = 0x00000010u
+  public type val INIT_VIDEO= 0x00000020u
+  public type val INIT_NOPARACHUTE = 0x00100000u
+  public type val INIT_SENSOR = 0x00008000u
+  public type val INIT_HAPTIC = 0x00001000u
+  public type val INIT_TIMER = 0x00000001u
+  public type val INIT_EVERYTHING = ( INIT_TIMER | INIT_AUDIO | INIT_VIDEO |
+    INIT_EVENTS | INIT_JOYSTICK | INIT_HAPTIC | INIT_GAMECONTROLLER |
+    INIT_SENSOR )
+
+
+
+  // functions
+  public type def init(flags : Uint32) : int extern sdl.SDL_Init;
+
+  public type def getError : string extern sdl.SDL_GetError;
+  public type def clearError : void extern sdl.SDL_ClearError;
+
+  test "window" {
+    //SDL2 initialization and error check 
+    if(init(INIT_VIDEO) != 0) {
+      "Unable to initialize SDL: "!!;
+      getError().print();
+      clearError();
+    }
+
+    gl.setAttribute(gl.RED_SIZE, 8);
+    gl.setAttribute(gl.GREEN_SIZE, 8);
+    gl.setAttribute(gl.BLUE_SIZE, 8);
+    gl.setAttribute(gl.DEPTH_SIZE, 24);
+    gl.setAttribute(gl.DOUBLEBUFFER, 1);
+    gl.setAttribute(gl.CONTEXT_PROFILE_MASK,
+                    gl.CONTEXT_PROFILE_COMPATIBILITY );
+
+    //SDL Create window stored in variable m_window
+    val win = Window.create(new string("test window title"),
+                            100, 100,
+                            800, 600,
+                            Window.OPENGL|Window.RESIZABLE );
+
+    // Error checking window
+    if(null == win) {
+      getError().print();
+      return false;
+    }
+
+    //Creates OpenGL context
+    val context = gl.createContext(win);
+    if(null == context) {
+      getError().print();
+      return false;
+    }
+
+    //Makes the open window the current context
+    gl.makeCurrent(win, context);
+
+    //initialization of glew
+    val status = thyGL.glew.init();
+    if(thyGL.glew.OK != status){
+      "GLEW Error: "!!;
+      thyGL.glew.getErrorString(status).print();
+      return false;
+    }
+
+    // print glew version
+    "Status: Using GLEW: "!!;
+    thyGL.glew.getString(thyGL.glew.VERSION).print();
+    "\n"!!;
+    return true;
+  }
+}

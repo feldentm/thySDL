@@ -1,0 +1,7 @@
+src=src
+name=feldentm.thySDL
+
+with=feldentm.thyGL
+
+# we use SDL2
+extern sdl from libSDL2

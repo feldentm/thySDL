@@ -1,0 +1,10 @@
+*~
+
+# binary libraries and debug asts
+out.*.sg
+*.dot
+**/*.tl
+
+# temporary llvm output
+a.out
+*.bc
