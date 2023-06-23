@@ -1,3 +1,5 @@
+with Uint32 := Unsigned[32];
+
 with string := tyr.io.CString;
 
 public type WindowFlags := int;

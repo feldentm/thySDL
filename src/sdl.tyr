@@ -1,6 +1,6 @@
 with string := tyr.io.CString
 
-type Uint32 := Unsigned[32];
+with Uint32 := Unsigned[32];
 
 /**
  * SDL2 is a C library; we will export all symbols with a sdl or a SDL_ prefix
@@ -9,7 +9,7 @@ type Uint32 := Unsigned[32];
  * As SDL2 is semi-object oriented, we will use individual types where it makes
  * sense. Thus, this type is only used for global functions and definitions.
  */
-type sdl {
+public type sdl {
 
   // macros
   public type val IGNORE = 0u
@@ -35,6 +35,10 @@ type sdl {
 
   public type def getError : string extern sdl.SDL_GetError;
   public type def clearError : void extern sdl.SDL_ClearError;
+
+
+  // TODO event queue als eternal iterator abbilden; hasNext über poll(null) und next über poll(&e);
+  public type def pollEvent(event : Ref[Event]) : int extern sdl.SDL_PollEvent;
 
   test "window" {
     //SDL2 initialization and error check 
