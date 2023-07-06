@@ -1,0 +1,19 @@
+// keep in sync with SDL_keyboard.h
+with Uint16 := Unsigned[16]
+with Uint32 := Unsigned[32];
+
+/**
+ *  \brief The SDL keysym structure, used in key events.
+ *
+ *  \note  If you are looking for translated character input, see the ::SDL_TEXTINPUT event.
+ */
+public type Keysym
+{
+  /**< SDL physical key code - see ::SDL_Scancode for details */
+  public var scancode : Scancode
+  /**< SDL virtual key code - see ::SDL_Keycode for details */
+  public var sym : Keycode
+  /**< current key modifiers */
+  public var mod : Uint16
+  public var unused : Uint32
+}
