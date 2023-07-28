@@ -21,33 +21,33 @@ public enum EventType <: Unsigned[32] {
   /* These application events have special meaning on iOS, see README-ios.md for details */
 
   /**< The application is being terminated by the OS
-     Called on iOS in applicationWillTerminate()
-     Called on Android in onDestroy()
+   * Called on iOS in applicationWillTerminate()
+   * Called on Android in onDestroy()
   */
   APP_TERMINATING,
   /**< The application is low on memory, free memory if possible.
-     Called on iOS in applicationDidReceiveMemoryWarning()
-     Called on Android in onLowMemory()
+   * Called on iOS in applicationDidReceiveMemoryWarning()
+   * Called on Android in onLowMemory()
   */
   APP_LOWMEMORY,
   /**< The application is about to enter the background
-     Called on iOS in applicationWillResignActive()
-     Called on Android in onPause()
+   * Called on iOS in applicationWillResignActive()
+   * Called on Android in onPause()
   */
   APP_WILLENTERBACKGROUND,
   /**< The application did enter the background and may not get CPU for some time
-     Called on iOS in applicationDidEnterBackground()
-     Called on Android in onPause()
+   * Called on iOS in applicationDidEnterBackground()
+   * Called on Android in onPause()
   */
   APP_DIDENTERBACKGROUND,
   /**< The application is about to enter the foreground
-     Called on iOS in applicationWillEnterForeground()
-     Called on Android in onResume()
+   * Called on iOS in applicationWillEnterForeground()
+   * Called on Android in onResume()
   */
   APP_WILLENTERFOREGROUND,
   /**< The application is now interactive
-     Called on iOS in applicationDidBecomeActive()
-     Called on Android in onResume()
+   * Called on iOS in applicationDidBecomeActive()
+   * Called on Android in onResume()
   */
   APP_DIDENTERFOREGROUND,
 
@@ -75,7 +75,7 @@ public enum EventType <: Unsigned[32] {
   /**< Keyboard text input */
   TEXTINPUT,
 /**< Keymap changed due to a system event such as an
-     input language or keyboard layout change.
+   * input language or keyboard layout change.
   */
   KEYMAPCHANGED,
 
@@ -94,9 +94,9 @@ public enum EventType <: Unsigned[32] {
 
   /**< Joystick axis motion */
   JOYAXISMOTION  = 0x600u,
-    /**< Joystick trackball motion */
+  /**< Joystick trackball motion */
   JOYBALLMOTION,
-    /**< Joystick hat position change */
+  /**< Joystick hat position change */
   JOYHATMOTION,
    /**< Joystick button pressed */
   JOYBUTTONDOWN,
@@ -281,6 +281,24 @@ public type MouseWheelEvent {
   public var y : Sint32
 }
 
+
+/**
+ *  \brief Game controller button event structure (event.cbutton.*)
+ */
+public type ControllerButtonEvent {
+  /** In milliseconds, populated using SDL_GetTicks() */
+  public var timestamp : Unsigned[32]
+
+  /** The joystick instance id */
+  public var which : JoystickID
+  /**< The controller button (SDL_GameControllerButton) */
+  public var button : Uint8
+  /**< ::SDL_PRESSED or ::SDL_RELEASED */
+  public var state : Uint8
+  public var padding1 : Uint8
+  public var padding2 : Uint8
+}
+
 /**
  * The "quit requested" event
  */
@@ -297,6 +315,8 @@ public enum Event <: EventType {
   if MOUSEMOTION MouseMotionEvent
   if MOUSEBUTTONDOWN, MOUSEBUTTONUP MouseButtonEvent
   if MOUSEWHEEL MouseWheelEvent
+
+  if CONTROLLERBUTTONDOWN, CONTROLLERBUTTONUP ControllerButtonEvent
 
   if QUIT QuitEvent
 

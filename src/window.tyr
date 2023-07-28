@@ -84,4 +84,20 @@ public type Window <: mem.OpaquePointer["SDL_Window"]{
                          w : int = 800, h : int = 600,
                          flags : Uint32 = OPENGL) : Window
     extern sdl.SDL_CreateWindow;
+
+/**
+ * Destroy a window.
+ *
+ * If `window` is NULL, this function will return immediately after setting
+ * the SDL error message to "Invalid window". See SDL_GetError().
+ *
+ * \param window the window to destroy
+ *
+ * \since This function is available since SDL 2.0.0.
+ *
+ * \sa SDL_CreateWindow
+ * \sa SDL_CreateWindowFrom
+ */
+  public def destroy(this : Window) : void
+    extern sdl.SDL_DestroyWindow;
 }
